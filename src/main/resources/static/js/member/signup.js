@@ -35,6 +35,6 @@ const onSignUp = () => {console.log('함수 실행됨.');
             if(data == true){alert('회원가입 완료'); location.href="/member/login";}
         else {alert('가입실패')}
         })
-        .catch(error => {alert('가입 오류 : 관리자에게 문의');})
+        .catch(error => {alert('가입오류 : 관리자에게 문의');})
 }
 

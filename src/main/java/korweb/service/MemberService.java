@@ -1,5 +1,7 @@
 package korweb.service;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import korweb.model.dto.MemberDto;
 import korweb.model.entity.MemberEntity;
@@ -45,13 +47,90 @@ public class MemberService {
         // [방법 2] JPA Repository 추상 메소드 활용.
         boolean result =
                 memberRepository.existsByMidAndMpwd(memberDto.getMid(), memberDto.getMpwd());
-
         if (result == true) {
             System.out.println("로그인 성공");
+            setSession(memberDto.getMid()); // 로그인 성공시 세션에 아이디 저장
             return true;
         } else {
             System.out.println("로그인 실패");
             return false; // 실패
         }
+
+    }
+     // ===================== 세션 관련 함수 ===================== //
+    // (1) 내장된 톰캣 서버의 요청 객체
+    @Autowired private HttpServletRequest request;
+
+    // [3] 세션객체 내 정보 추가 : 세션객체에 로그인된 회원아이디를 추가하는 함수. ( 로그인 성공시 )
+    public boolean setSession(String mid){
+        // (2) 요청 객체를 이용한 톰캣 내 세션 객체를 반환한다.
+        HttpSession httpSession = request.getSession();
+        // (3) 세션 객체에 속성(새로운 값) 추가한다.
+        httpSession.setAttribute("loginId",mid);
+        return true;
+    }
+    // [4] 세션객체 내 정보 반환 : 세션객체에 로그인 된 회원 아이디 반환하는 함수 ( 내정보 조회, 수정 등등)
+    public String getSession(){
+        // (2) 요청 객체를 이용한 톰캣 내 세션 객체를 반환한다.
+        HttpSession httpSession = request.getSession();
+        // (4) 세션 객체에 속성명의 값 반환한다. * 반환타입이 Object 이다.
+        Object object = httpSession.getAttribute("loginId");
+        // (5) 검사후 타입 변환
+        if(object != null){
+            //만약에 세션 정보가 존재하면
+            String mid = (String) object; // Object타입 --> String타입
+            return mid;
+        }
+        return null;
+    }
+    // [5] 세션객체내 정보 초기화 : 로그아웃
+    public boolean deleteSession(){
+        // (2) 요청 객체를 이용한 톰캣 내 세션 객체를 반환한다.
+        HttpSession httpSession = request.getSession();
+        // (5) 세션객체 안에 특정 정보를 지우기
+        httpSession.removeAttribute("loginId");
+        return true;
+    }
+    // [6] 현재 로그인된 회원의 정보 조회
+    public MemberDto getMyInfo(){
+        // 1. 현재 세션에 저장된 회원 아이디 조회
+        String mid = getSession();
+        // 2. 만약에 로그인 상태이면
+        if(mid != null){
+            // 3. 회원아이디로 엔티티 조회
+            MemberEntity memberEntity = memberRepository.findByMid(mid);
+            // 4. entity --> dto 변환
+            MemberDto memberDto = memberEntity.toMDto();
+            // 5. 반환
+            return memberDto;
+        }
+        return null;
+    }
+    // [7] 현재 로그인된 회원 탈퇴
+    public boolean myDelete(){
+        // 1. 현재 세션에 저장된 회원 아이디 조회
+        String mid = getSession();
+        // 2. 만약에 로그인 상태이면
+        if(mid != null){
+            // 3. 현재 로그인된 아이디로 로그인 조회
+            MemberEntity memberEntity = memberRepository.findByMid(mid);
+            // 4. 엔티티 탈퇴/삭제하기
+            memberRepository.delete(memberEntity);
+            deleteSession(); // 로그인 정보 지우기 : 로그아웃
+            return true;
+        }
+        return false;
+    }
+    // [8] 현재 로그인된 정보 수정, mname 닉네임, mmail 이메일
+    @Transactional // 수정시 Transactional 필수
+    public boolean myUpdate(MemberDto memberDto){
+        String mid = getSession();
+        if(mid != null){
+            MemberEntity memberEntity = memberRepository.findByMid(mid);
+            memberEntity.setMname(memberDto.getMname());
+            memberEntity.setMmail(memberDto.getMmail());
+            return true;
+        }
+        return false;
     }
 }
