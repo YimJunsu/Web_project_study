@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import korweb.model.dto.MemberDto;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "member")
 @Getter@Setter@ToString@Builder
@@ -20,6 +23,13 @@ public class MemberEntity extends BaseTime {
     private String mname;
     @Column(columnDefinition = "varchar(40)", nullable = false, unique = true)
     private String mmail;
+
+
+    @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @Builder.Default
+    private List<PointEntity> pointEntityList = new ArrayList<>();
+
 
     // 엔티티 -> DTO
     public MemberDto toMDto(){

@@ -4,8 +4,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import korweb.model.dto.MemberDto;
+import korweb.model.dto.PointDto;
 import korweb.model.entity.MemberEntity;
+import korweb.model.entity.PointEntity;
 import korweb.model.repository.MemberRepository;
+import korweb.model.repository.PointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +16,25 @@ import java.util.List;
 
 @Service
 public class MemberService {
-    @Autowired
-    private MemberRepository memberRepository;
+    @Autowired private MemberRepository memberRepository;
+    @Autowired private PointRepository pointRepository;
 
+    // 헷갈리면 repository 쓰는 곳 대부분 @Transactional 쓰기
     // 회원가입
     @Transactional // 트랜잭션
     public boolean signup(MemberDto memberDto) {
         // 1. DTO를 Entity로 변환한 toMEntity를 가져오기
-        MemberEntity memberEntity = memberDto.toMEntity();
+        MemberEntity memberentity = memberDto.toMEntity();
         // 2. 변환된 엔티티를 Save하고 그 결과 entity를 반환 받는다.
-        MemberEntity saveEntity = memberRepository.save(memberEntity);
+        MemberEntity saveEntity = memberRepository.save(memberentity);
         // 3. 회원가입 해놓고, mno가 제대로 생성 되었는지 여부 확인해서 return값 반환
         if (saveEntity.getMno() > 0) {
+            PointDto signdto = new PointDto();
+            PointDto pointDto = PointDto.builder()
+                    .pname("회원가입 보상")
+                    .pcount(100)
+                    .build();
+            pointPayment(pointDto,memberentity);
             return true;
         } else {
             return false;
@@ -50,6 +60,14 @@ public class MemberService {
         if (result == true) {
             System.out.println("로그인 성공");
             setSession(memberDto.getMid()); // 로그인 성공시 세션에 아이디 저장
+            // 포인트 DTO 생성
+            PointDto pointDto = PointDto.builder()
+                    .pname("로그인 보상")
+                    .pcount(+ 1).build();
+            // - 현재 로그인된 엔티티 찾기 // .findById(pk번호) : 지정한 pk번호의 엔티티 조회
+            MemberEntity memberEntity = memberRepository.findById(getMyInfo().getMno()).get();
+            // - 포인트 지급 함수
+            pointPayment(pointDto, memberEntity);
             return true;
         } else {
             System.out.println("로그인 실패");
@@ -62,12 +80,12 @@ public class MemberService {
     @Autowired private HttpServletRequest request;
 
     // [3] 세션객체 내 정보 추가 : 세션객체에 로그인된 회원아이디를 추가하는 함수. ( 로그인 성공시 )
-    public boolean setSession(String mid){
-        // (2) 요청 객체를 이용한 톰캣 내 세션 객체를 반환한다.
-        HttpSession httpSession = request.getSession();
-        // (3) 세션 객체에 속성(새로운 값) 추가한다.
-        httpSession.setAttribute("loginId",mid);
-        return true;
+        public boolean setSession(String mid){
+            // (2) 요청 객체를 이용한 톰캣 내 세션 객체를 반환한다.
+            HttpSession httpSession = request.getSession();
+            // (3) 세션 객체에 속성(새로운 값) 추가한다.
+            httpSession.setAttribute("loginId",mid);
+            return true;
     }
     // [4] 세션객체 내 정보 반환 : 세션객체에 로그인 된 회원 아이디 반환하는 함수 ( 내정보 조회, 수정 등등)
     public String getSession(){
@@ -133,4 +151,20 @@ public class MemberService {
         }
         return false;
     }
+    @Transactional
+    // [9] (부가서비스)포인트 지급 함수. 지급내용 pname / 지급수량 pcount / 지급받는 회원 엔티티
+    public boolean pointPayment(PointDto pointDto, MemberEntity memberEntity){
+
+            PointEntity pointEntity = pointDto.toPEntity();
+            pointEntity.setMemberEntity(memberEntity); // 지급받는 회원 엔티티 대입
+
+            PointEntity saveEntity = pointRepository.save(pointEntity);
+            if(pointEntity.getPno() > 0){return true;}
+            else {return false;}
+    }
+
+//    // [10] 내 포인트 출력
+//    public List<PointDto> MyPoint(){
+//
+//    }
 }

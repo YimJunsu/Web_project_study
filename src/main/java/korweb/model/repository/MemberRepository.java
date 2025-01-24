@@ -30,6 +30,9 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Integer> {
             DAO : select * from member where mid = ?
             JPA : MemberEntity findByMid( String mid );
     */
+    // [0] 회원가입 시 아이디와 이메일 중복확인
+    boolean existsByMid(String mid);
+    boolean existsByMmail(String mmail);
 
     // [1] 로그인 추상메소드 : existsBy필드명And필드명
         // Dao : select * from member where mid = ? and mpwd = ?
@@ -37,5 +40,6 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Integer> {
     // [2] 아이도로 엔티티 조회 : findBy필드명
         // Dao : select * from member where mid = ?
     MemberEntity findByMid(String mid);
+
 }
 

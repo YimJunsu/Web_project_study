@@ -1,9 +1,12 @@
 package korweb.controller;
 
 import korweb.model.dto.MemberDto;
+import korweb.model.dto.PointDto;
 import korweb.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class MemberController {
@@ -15,6 +18,12 @@ public class MemberController {
     public boolean signup (@RequestBody MemberDto memberDto){
         return memberService.signup(memberDto);
     }
+    // 회원가입 시 아이디 중복확인
+//    @GetMapping("/member/signup/idcheck")
+//    public boolean checkid (@)
+
+    //
+
     // 로그인
     @PostMapping("/member/login")
     public boolean login (@RequestBody MemberDto memberDto){
@@ -35,6 +44,11 @@ public class MemberController {
     public MemberDto MyInfo(){
         return memberService.getMyInfo();
     }
+//    // [6 -1] 내 포인트 조회
+//    @GetMapping("/member/mypoint")
+//    public List<PointDto> MyPoint(){
+//        return memberService.getMyPoint;
+//    }
     // [7] 현재 로그인된 회원 탈퇴
     @DeleteMapping("/member/delete")
     public boolean myDelete(){

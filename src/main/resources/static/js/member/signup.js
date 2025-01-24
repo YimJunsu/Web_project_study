@@ -16,6 +16,16 @@ const onSignUp = () => {console.log('함수 실행됨.');
     let mname = mnameInput.value; console.log(mname);
     let mmail = mmailInput.value; console.log(mmail);
 
+    // (2-1) 비밀번호 길이 20자 이내로
+    if(mpwd.length > 20){
+        alert('비밀번호를 20자 이하로 입력해주세요')
+        return;
+    }
+    if(mpwd !== mpwdcheack){
+        alert('비밀번호가 일치하지 않습니다.')
+        return;
+    }
+    fetch('/member/cheack')
 
     // (3) 입력받은 값들을 객체화 한다.
     let dataObj = { mid : mid , mpwd : mpwd, mname : mname, mmail : mmail}
