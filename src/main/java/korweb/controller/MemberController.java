@@ -2,6 +2,7 @@ package korweb.controller;
 
 import korweb.model.dto.MemberDto;
 import korweb.model.dto.PointDto;
+import korweb.model.entity.PointEntity;
 import korweb.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -44,11 +45,6 @@ public class MemberController {
     public MemberDto MyInfo(){
         return memberService.getMyInfo();
     }
-//    // [6 -1] 내 포인트 조회
-//    @GetMapping("/member/mypoint")
-//    public List<PointDto> MyPoint(){
-//        return memberService.getMyPoint;
-//    }
     // [7] 현재 로그인된 회원 탈퇴
     @DeleteMapping("/member/delete")
     public boolean myDelete(){
@@ -58,5 +54,15 @@ public class MemberController {
     @PutMapping("/member/myupdate")
     public boolean myUpdate(@RequestBody MemberDto memberDto){
         return memberService.myUpdate(memberDto);
+    }
+    // [10] 내 포인트 지급 내역 전체 조회
+    @GetMapping("/member/point/list")
+    public List<PointDto> pointList(){
+        return memberService.pointList();
+    }
+    // [11] 내 포인트 조회
+    @GetMapping("/member/point/info")
+    public int pointInfo(){
+        return memberService.pointInfo();
     }
 }

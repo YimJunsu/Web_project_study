@@ -12,6 +12,7 @@ import korweb.model.repository.PointRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -142,6 +143,7 @@ public class MemberService {
     // [8] 현재 로그인된 정보 수정, mname 닉네임, mmail 이메일
     @Transactional // 수정시 Transactional 필수
     public boolean myUpdate(MemberDto memberDto){
+            // 1. (로그인된) 내정보 가져오기
         String mid = getSession();
         if(mid != null){
             MemberEntity memberEntity = memberRepository.findByMid(mid);
@@ -163,8 +165,29 @@ public class MemberService {
             else {return false;}
     }
 
-//    // [10] 내 포인트 출력
-//    public List<PointDto> MyPoint(){
-//
-//    }
-}
+    // [10] 내 포인트 내역 전체 출력
+    public List<PointDto> pointList(){
+        // 1. (로그인된) 내정보 가져오기
+        String mid = getSession();
+        MemberEntity memberEntity = memberRepository.findByMid(mid);
+        // 2. 내 포인트 조회하기
+        List<PointEntity> pointEntityList = pointRepository.findByMemberEntity(memberEntity);
+        // 3, 조회된 포인트 엔티티를 dto 반환
+        List<PointDto> pointDtoList = new ArrayList<>();
+        pointEntityList.forEach(pointEntity -> {pointDtoList.add(pointEntity.toPDto());
+        });
+        return pointDtoList;
+    }
+    // [11] 내 현재 포인트 출력
+    public int pointInfo(){
+            String mid = getSession();
+            MemberEntity memberEntity = memberRepository.findByMid(mid);
+            List<PointEntity> pointEntityList = pointRepository.findByMemberEntity(memberEntity);
+            int mypoint = 0;
+            for(int index = 0; index<=pointEntityList.size()-1; index++) {
+                mypoint += pointList().get(index).getPcount();
+            }
+            return mypoint;
+            }
+    }
+
