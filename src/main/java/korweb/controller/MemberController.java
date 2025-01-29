@@ -65,4 +65,5 @@ public class MemberController {
     public int pointInfo(){
         return memberService.pointInfo();
     }
+    // 따라쓰기 연습
 }
