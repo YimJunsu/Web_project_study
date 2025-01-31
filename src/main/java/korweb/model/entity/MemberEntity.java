@@ -23,7 +23,9 @@ public class MemberEntity extends BaseTime {
     private String mname;
     @Column(columnDefinition = "varchar(40)", nullable = false, unique = true)
     private String mmail;
-
+    // 회원 사진파일명(01/31)
+    @Column(nullable = false, columnDefinition = "varchar(255)")
+    private String mimg; // 회원 프로필사진명
 
     @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
@@ -39,6 +41,7 @@ public class MemberEntity extends BaseTime {
                 //패스워드 보안상 생략
                 .mname(this.mname)
                 .mmail(this.mmail)
+                .mimg(this.mimg)
                 .build();
     }
 }

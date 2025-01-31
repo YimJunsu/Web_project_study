@@ -2,6 +2,7 @@ package korweb.model.dto;
 
 import korweb.model.entity.MemberEntity;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter@Setter@ToString@Builder
 @NoArgsConstructor@AllArgsConstructor
@@ -13,6 +14,8 @@ public class MemberDto {
     private String mmail;
     private String cdate;
     private String udate;
+    private String mimg; // 회원 프로필 사진명
+    private MultipartFile uploadfile; // 업로드 파일객체
 
     // DTO -> 엔티티
     public MemberEntity toMEntity(){
@@ -22,6 +25,7 @@ public class MemberDto {
                 .mpwd(this.mpwd)
                 .mname(this.mname)
                 .mmail(this.mmail)
+                .mimg(this.mimg)
                 .build();
     }
 

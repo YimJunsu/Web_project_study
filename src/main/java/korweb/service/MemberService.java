@@ -19,11 +19,24 @@ import java.util.List;
 public class MemberService {
     @Autowired private MemberRepository memberRepository;
     @Autowired private PointRepository pointRepository;
+    @Autowired private  FileService fileService;
 
     // 헷갈리면 repository 쓰는 곳 대부분 @Transactional 쓰기
-    // 회원가입
+
+    // (1) 회원가입 - (day70 회원가입시 프로필 사진 추가)
     @Transactional // 트랜잭션
     public boolean signup(MemberDto memberDto) {
+        // - 프로필사진 첨부파일 존재하면 업로드 진행
+            // (1) 만약에 업로드 파일이 비어 있으면 'default.jpg' 임시용 프로필 사진 등록한다.
+        if(memberDto.getUploadfile().isEmpty()){memberDto.setMimg("default.jpg");}
+        else { // (2) 아닌 업로드 파일이 존재하면, 파일 서비스 객체내 업로드 함수를 호출한다.
+           String fileName = fileService.fileUpload(memberDto.getUploadfile()); // 업로드 함수에 multipart 객체를 대입 해준다
+            // (3) 만약에 업로드 후 반환된 값이 null 이면 업로드 실패, null 아니면 업로드 성공
+            if(fileName == null) {return false;} // 업로드 실패 했으면 회원가입 실패
+        else {
+            memberDto.setMimg(fileName); // 업로드 성공한 uuid+파일명을 dto 대입한다.
+            }
+        }
         // 1. DTO를 Entity로 변환한 toMEntity를 가져오기
         MemberEntity memberentity = memberDto.toMEntity();
         // 2. 변환된 엔티티를 Save하고 그 결과 entity를 반환 받는다.
@@ -190,4 +203,5 @@ public class MemberService {
             return mypoint;
             }
     }
+
 
