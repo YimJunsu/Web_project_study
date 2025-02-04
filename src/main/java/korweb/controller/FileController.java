@@ -14,8 +14,8 @@ public class FileController {
     // [1] 파일 업로드 매핑
     @PostMapping("/file/upload")
     public String fileUpload(MultipartFile multipartFile){
-        System.out.println("'");
-        System.out.println("'");
+        System.out.println("test");
+
         return fileService.fileUpload(multipartFile);
     }
     // [2] 파일 다운로드 매핑
