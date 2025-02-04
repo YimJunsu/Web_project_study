@@ -16,6 +16,7 @@ public class FileController {
     public String fileUpload(MultipartFile multipartFile){
         System.out.println("test");
         System.out.println("test");
+        System.out.println("testcommit");
         return fileService.fileUpload(multipartFile);
     }
     // [2] 파일 다운로드 매핑
