@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor@AllArgsConstructor
 public class ReplyEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rno;
     @Column(columnDefinition = "varchar(255)", nullable = false)
     private String rcontent; // 댓글 내용

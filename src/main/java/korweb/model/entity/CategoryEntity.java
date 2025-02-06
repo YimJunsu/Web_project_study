@@ -10,7 +10,7 @@ import lombok.*;
 public class CategoryEntity extends BaseTime{
     // 1. 카테고리 번호(Pk)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cno;
     // 2. 카테고리 명
     @Column(columnDefinition = "varchar(50)", nullable = false)

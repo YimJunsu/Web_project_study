@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor@NoArgsConstructor
 public class FileEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int fno; // 1. 첨부파일번호(pk)
     @Column(columnDefinition = "varchar(255)", nullable = false)
     private String fname; // 2. 첨부파일명
