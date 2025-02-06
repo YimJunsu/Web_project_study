@@ -7,7 +7,7 @@ import lombok.*;
 @Table(name = "reply")
 @Getter@Setter@Builder@ToString
 @NoArgsConstructor@AllArgsConstructor
-public class ReplyEntity {
+public class ReplyEntity extends BaseTime{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rno;

@@ -12,6 +12,8 @@ public class BoardDto {
     private int bview;
     private int mno; // 작성자의 회원번호
     private int cno; // 카테고리 번호
+    private String cdate; // 작성일
+
     // 화면에는 작성자의 회원번호가 아닌 아이디를 출력해야 하므로
     private String mid; // 작성자의 회원 아이디
     private String cname; // 카테고리명

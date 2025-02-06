@@ -34,10 +34,15 @@ public class BoardEntity extends BaseTime{
     // 데이터베이스에 저장된 entity를 조회한 후 dto로 변환해야 하므로
     public BoardDto toBDto(){
         return BoardDto.builder()
-                .bno(this.bno)
-                .btitle(this.btitle)
-                .bcontent(this.bcontent)
-                .bview(this.bview)
+                .bno( this.bno )
+                .btitle( this.btitle )
+                .bcontent( this.bcontent )
+                .bview( this.bview )
+                .mno( this.memberEntity.getMno() )
+                .cno( this.categoryEntity.getCno() )
+                .mid( this.memberEntity.getMid() )
+                .cname( this.categoryEntity.getCname() )
+                .cdate( this.getCdate().toString() )
                 .build();
     }
 }

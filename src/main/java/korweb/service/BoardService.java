@@ -100,8 +100,12 @@ public class BoardService {
     // [4] 게시글 수정
     @Transactional
     public boolean boardUpdate(BoardDto boardDto) {
-
-        return false;
+        BoardEntity boardEntity = boardRepository.findByBno(boardDto.getBno());
+        if(boardDto.getBno()>0) {
+            boardEntity.setBtitle(boardDto.getBtitle());
+            boardEntity.setBcontent(boardDto.getBcontent());
+            return true;
+        } return false;
     }
 
     // [5] 게시글 삭제
