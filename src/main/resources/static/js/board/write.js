@@ -1,5 +1,4 @@
 // *썸머노트 실행
-
 $(document).ready(function() {
   $('#summernote').summernote({
   height : 500, // 썸머노트 게시판의 노트 조절
@@ -16,13 +15,13 @@ const onWrite = () => {
     const bcontent=document.querySelector('.bcontent').value
 
     // [2] 입력받은 값들을 JSON 본기 위해 입력받은 값 객체로 만들기
-    const obj = { cno : cno , btitle : btitle, bcontent : bcontent}
+    const obj = { cno : cno , btitle : btitle , bcontent : bcontent }
 
     // [3] fetch
     const option = {
         method : 'POST',
         headers : {'Content-Type' : 'application/json'},
-        body : JSON.Stringify(obj)
+        body : JSON.stringify(obj)
     }
     fetch('/board/write.do' , option )
         .then(r => r.json())
@@ -34,6 +33,6 @@ const onWrite = () => {
             }else{
                 alert('글쓰기 실패 : 로그인 해주세요');
             }
-        });
-        .catch(e => {console.log(e)};)
+        })
+        .catch(e => {console.log(e);})
 }
