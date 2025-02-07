@@ -17,8 +17,8 @@ public class BoardController {
     }
 
     @GetMapping("/board/findall.do")
-    public List<BoardDto> boardFindAll(){
-        return boardService.boardFindAll();
+    public List<BoardDto> boardFindAll(@RequestParam int cno){ // 조회할 카테고리 번호
+        return boardService.boardFindAll(cno);
     }
 
     @GetMapping("/board/find.do")
