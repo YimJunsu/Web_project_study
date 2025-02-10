@@ -41,5 +41,6 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Integer> {
         // Dao : select * from member where mid = ?
     MemberEntity findByMid(String mid);
 
+
 }
 
