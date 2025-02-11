@@ -43,6 +43,8 @@ const onReplyWrite = () => {
         .then(data=>{
             if(data==true){
                 alert('댓글등록');
+                rcontentInput.value = '';
+                onReplyFindAll();
             } else {
                 alert('댓글 등록 실패');
             }
@@ -50,4 +52,28 @@ const onReplyWrite = () => {
 }
 
 // [3] 개별 게시물의 존재하는 댓글 조회 요청 함수
-const onReplyFindAll = () => {}
+const onReplyFindAll = () => {
+
+    const bno = new URL(location.href).searchParams.get('bno')
+
+    const option = {method : 'GET'}
+
+    fetch(`/reply/findall.do?bno=${bno}` , option)
+        .then(r=>r.json())
+        .then(data => {
+        console.log(data);
+        const tbody = document.querySelector('tbody')
+        let html=``
+        data.forEach(reply => {
+            html += `<tr>
+                        <td> ${reply.rno} </td>
+                        <td> ${reply.rcontent} </td>
+                        <td> ${reply.cdate} </td>
+                        <td> ${reply.mid} </td>
+                    </tr>`
+        })
+        tbody.innerHTML = html;
+    })
+        .catch(e=>{console.log(e);})
+}
+onReplyFindAll()

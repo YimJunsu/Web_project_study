@@ -1,0 +1,8 @@
+.replay {
+    border-bottom: 2px solid #000; /* 두께와 색상을 조정 */
+}
+
+.rcontentInput{
+    width : 500px;
+    height : 100px;
+}

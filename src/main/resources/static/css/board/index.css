@@ -14,5 +14,5 @@
 .bcontent{
     margin-top : 15px;
     min-height : 300px; /* 최소 높이 */
-
+    border-bottom: 2px solid #000;
 }
