@@ -3,6 +3,7 @@ package korweb.service;
 import jakarta.transaction.Transactional;
 import korweb.model.dto.BoardDto;
 import korweb.model.dto.MemberDto;
+import korweb.model.dto.PageDto;
 import korweb.model.entity.BoardEntity;
 import korweb.model.entity.CategoryEntity;
 import korweb.model.entity.MemberEntity;
@@ -12,6 +13,10 @@ import korweb.model.repository.CategoryRepository;
 import korweb.model.repository.MemberRepository;
 import korweb.model.repository.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -54,9 +59,22 @@ public class BoardService {
     }
 
     // [2] 게시글 전체 조회
-    public List<BoardDto> boardFindAll(int cno) {
+    public PageDto boardFindAll(int cno, int page) {
+        System.out.println("카테고리 번호 : "+cno);
+        System.out.println("페이비 번호 : "+page);
+        // 페이징처리 방법 : 1.SQL 2.라이브러리(*JPA*)
+        // 1. 페이지 처리 설정, PageRequest.of(페이지번호, 페이지당갯수, 정렬);
+        Pageable pageable = PageRequest.of(page-1, 3 , Sort.by(Sort.Direction.DESC, "bno"));
+        // 2. find~~~(pageable) , find~~(pageable) 매개변수로 설정 넣어주면 반환값은 Page
+
         // (1) 모든 게시물 엔티티를 조회
-        List<BoardEntity> boardEntityList = boardRepository.findAll(); // (모든 엔티티를 조회)
+        //List<BoardEntity> boardEntityList = boardRepository.findAll(); // (모든 엔티티를 조회)
+        // (1) 모든 게시물의 엔티티를 조회 + 페이징처리
+        // Page<BoardEntity> boardEntityList = boardRepository.findAll(pageable);
+        // (1) 특정한 카테고리의 엔티티를 조회 + 페이징처리
+        Page<BoardEntity> boardEntityList = boardRepository.findByCategoryEntity_Cno(cno, pageable);
+        System.out.println(boardEntityList); // 확인용 출력
+
             // * cno 이용한 동일한 cno의 게시물 정보 찾기 + 0207
         // (2) 모든 게시물의 엔티티를 DTO로 변환
         // - DTO를 저장할 리스트 선언
@@ -78,7 +96,32 @@ public class BoardService {
             }
         });
         // (3) 결과를 리턴한다.
-        return boardDtoList;
+//        return boardDtoList;
+        // [*] 페이징 처리된 게시물 정보(자료) 외 페이징 정보도 같이 반환
+        // (1) 현재페이지번호 = page
+        // (2) 전체페이지번호 = totalPage, JPA의 getTotalPages() : 조회된 정보의 전체 페이지 수 반환 함수
+        int totalPage = boardEntityList.getTotalPages();
+        // (3) 전체조회된수 = totalCount, JPA의 .getTotalElements() : 조회된 정보의 전체 개수 반환 함수
+        long totalCount = boardEntityList.getNumberOfElements();
+        int btnSize = 5; // 페이지당 표시할 페이지버튼 수
+        // (4) 조회 페이지의 페이징버튼 시작번호, 계산식 : ((현재페이지번호-1)/페이징버튼수) * 페이징버튼수 +1;
+        int startBtn = ((page-1) / btnSize) * btnSize + 1;
+        // (5) 조회 페이지의 페이징버튼 끝번호, 계산식 : (시작번호 + (페이징버튼수-1)
+        int endBtn = startBtn + (btnSize -1);
+            // 만약에 페이징번호 끝번호는 전체 페이지수 보다 커질수 없다.
+        if(endBtn == startBtn) endBtn = totalPage;
+        // 페이징 DTO 이용한 페이징정보와 자료를 같이 응답/리턴
+        PageDto pageDto = PageDto.builder()
+                .totalcount(totalPage)
+                .page(page)
+                .totalpage(totalPage)
+                .startbtn(startBtn)
+                .endbtn(endBtn)
+                .data(boardDtoList)
+                .build();
+        // 페이징 dto 를 반환한다.
+        // List<boardDto>로 반환했었지만 현재는 페이징 dto로 반환, 페이징 dto 안에 boardDtoList 존재
+        return pageDto;
     }
     // [3] 게시글 특정(개별) 조회
     @Transactional

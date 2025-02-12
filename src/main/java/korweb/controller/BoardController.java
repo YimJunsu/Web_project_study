@@ -1,6 +1,7 @@
 package korweb.controller;
 
 import korweb.model.dto.BoardDto;
+import korweb.model.dto.PageDto;
 import korweb.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,10 @@ public class BoardController {
         return boardService.boardWrite(boardDto);
     }
 
+    // 카테고리별 게시물 전체 조회 + 페이징 처리( vs 무한스크롤)
     @GetMapping("/board/findall.do")
-    public List<BoardDto> boardFindAll(@RequestParam int cno){ // 조회할 카테고리 번호
-        return boardService.boardFindAll(cno);
+    public PageDto boardFindAll(@RequestParam int cno , @RequestParam int page){ // 조회할 카테고리 번호
+        return boardService.boardFindAll(cno,page);
     }
 
     @GetMapping("/board/find.do")
