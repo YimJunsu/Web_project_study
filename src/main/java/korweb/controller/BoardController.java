@@ -18,10 +18,11 @@ public class BoardController {
         return boardService.boardWrite(boardDto);
     }
 
-    // 카테고리별 게시물 전체 조회 + 페이징 처리( vs 무한스크롤)
+    // 카테고리별 게시물 전체 조회 + 페이징 처리( vs 무한스크롤) + 검색
     @GetMapping("/board/findall.do")
-    public PageDto boardFindAll(@RequestParam int cno , @RequestParam int page){ // 조회할 카테고리 번호
-        return boardService.boardFindAll(cno,page);
+    public PageDto boardFindAll(@RequestParam int cno , @RequestParam int page, @RequestParam String key, @RequestParam String keyword){ // 조회할 카테고리 번호
+        // cno = 조회할 카테고리 번호, page = 현재 페이지 번호, key = 검색할 데이터의 속성명(btitle, bcontent), key worword = 검색할 단어
+        return boardService.boardFindAll(cno,page, key, keyword);
     }
 
     @GetMapping("/board/find.do")
