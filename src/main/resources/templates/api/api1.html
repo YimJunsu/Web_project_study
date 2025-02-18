@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div th:replace="~{ /header.html :: header }"></div> <!-- header 의 fragment 가져옴 -->
+    <div class="container">
+
+        <h3> 그래프 시각화 샘플, chart.js </h3>
+        <div>
+            <canvas id="myChart"></canvas>
+        </div>
+        <div>
+            <canvas id="myChart2"></canvas>
+        </div>
+
+        <h3> #부평구 맛집 현황 </h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>연번</th><th>소재지</th> <th> 업소명 </th>
+                    <th>업태</th><th>전화번호</th><th>지정메뉴</th>
+                </tr>
+            </thead>
+            <tbody id="boardTable2">
+
+            </tbody>
+        </table>
+
+        <h3> #사업자 번호 상태 조회 </h3>
+        <input type="text" id="companyIdInput">
+        <button type="button" onclick="api2()"> 검색 </button>
+        <div> 조회 결과 : <span id="resultArea"></span></div>
+
+
+        <h3> #부평구 인구 현황 </h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>동별</th> <th> 세대수 </th>
+                    <th>인구수(계)</th><th>인구수(남)</th><th>인구수(여)</th>
+                </tr>
+            </thead>
+            <tbody id="boardTable1">
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="/js/api/api1.js"></script>
+
+</body>
+</html>
