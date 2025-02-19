@@ -42,4 +42,8 @@ public class ViewController {
     public String api1(){
         return "/api/api1.html";
     }
+
+    // [10] API2
+    @GetMapping("/api2")
+    public String api2(){return "/api/api2.html";}
 }

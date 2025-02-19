@@ -18,9 +18,9 @@ const api4 = () =>{
             let wemensu = []
 
             responseData.data.forEach(obj => {
-                donglist.push( obj.['동별'] ) // donglist 리스트에 모든 '동별' 를 대입해준다.
-                mensu.push( obj.['인구수(남)'] ) // mensu 모든 ' 남자인구수'를 대입
-                wemensu.push( obj.['인구수(여)'] ) // wemensu 모든 ' 여자인구수'를 대입
+                donglist.push( obj['동별'] ) // donglist 리스트에 모든 '동별' 를 대입해준다.
+                mensu.push( obj['인구수(남)'] ) // mensu 모든 ' 남자인구수'를 대입
+                wemensu.push( obj['인구수(여)'] ) // wemensu 모든 ' 여자인구수'를 대입
             });
             // chart.js 활용
             // (1) 차트를 표한할 위치의 DOM 가져오기
