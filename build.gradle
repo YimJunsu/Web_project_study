@@ -24,6 +24,8 @@ repositories {
 }
 
 dependencies {
+    // WebSocket : 서버소켓 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'

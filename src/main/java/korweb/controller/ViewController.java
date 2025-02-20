@@ -46,4 +46,8 @@ public class ViewController {
     // [10] API2
     @GetMapping("/api2")
     public String api2(){return "/api/api2.html";}
+
+    // [11]
+    @GetMapping("/chat")
+    public String chat(){return "/api/chat.html";}
 }
