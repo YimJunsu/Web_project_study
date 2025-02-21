@@ -27,7 +27,7 @@ const getLoginMid = ( ) =>{
             // 5. 포인트 지급 불러오기
              myPointInto();
             //=======================================================================
-            const clientSocket = new WebSocket('ws://localhost:8080/socket/server')
+            const clientSocket = new WebSocket('ws://localhost:8080/loginsocket/server')
             //console.log(clientSocket);    
             // [2] 클라이언트 웹 소켓 속성
             // 1. 만약에 클라이언트 웹 소켓이 서버소켓과 연결을 성공 했을 때 실행되는 함수 구현
@@ -36,17 +36,37 @@ const getLoginMid = ( ) =>{
 
             // (2) 클라이언트가 서버소켓에 접속했을때
             // type : 메시지의 종류, message : 메시지의 본문 내용
-            let msg = {'type' : 'alarm' , 'memssage': `${nickName}님이 로그인 했습니다..`}
+            let msg = {'type' : 'alarm' , 'message': `${data.mid}님이 로그인 했습니다..!`}
+            console.log(msg);
             // 소켓은 문자열만 정송이 가능 하므로 JSON.stringify() 이용한 문자열타입으로 전송하기
             clientSocket.send(JSON.stringify(msg))
-            
-}
 
+            clientSocket.onmessage = (event) => {
+                console.log('서버소켓으로 부터 메시지를 받았다.');
+                console.log( event ); // 받은 메시지 통신 정보 객체
+                console.log( event.data ); // 받은 메시지 본문 
+                
+                let message = JSON.parse(event.data);
 
-
-
-
-
+                if(message.type == 'alarm'){
+                    let toastContainer  = document.querySelector('.toast-container');
+                    toastContainer.innerHTML+=`
+            <div class="toast-header">
+                <img src="/" class="rounded me-2" alt="/">
+                <strong class="me-auto">알림</strong>
+                <small class="text-body-secondary">방금</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                ${message.message}
+            </div>
+        `;
+            toastContainer.appendChild(toastElement); // Toast를 화면에 추가
+            let toast = new bootstrap.Toast(toastElement);
+            toast.show(); // 토스트 표시
+                }
+            }
+        }
         })
         .catch( error => {   console.log( error); console.log( '비로그인상태');
             // 3. 회원가입 버튼 , 로그인 버튼 활성화
@@ -93,10 +113,14 @@ const myPointInto =  ( ) =>{
 }
 
 //=========================================================
-clientSocket.onmessage = (event) => {
-    console.log('서버소켓으로 부터 메시지를 받았다.')
-    console.log(event);
-    console.log(event.data);
 
-    const message = JSON.parse(event.data);
+
+const toastTrigger = document.getElementById('liveToastBtn')
+const toastLiveExample = document.getElementById('liveToast')
+
+if (toastTrigger) {
+  const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+  toastTrigger.addEventListener('click', () => {
+    toastBootstrap.show()
+  })
 }
