@@ -26,6 +26,27 @@ const getLoginMid = ( ) =>{
             memberBox.innerHTML = html;
             // 5. 포인트 지급 불러오기
              myPointInto();
+            //=======================================================================
+            const clientSocket = new WebSocket('ws://localhost:8080/socket/server')
+            //console.log(clientSocket);    
+            // [2] 클라이언트 웹 소켓 속성
+            // 1. 만약에 클라이언트 웹 소켓이 서버소켓과 연결을 성공 했을 때 실행되는 함수 구현
+            clientSocket.onopen = (event) => {
+            console.log("서버소켓에 연동 성공했다!")
+
+            // (2) 클라이언트가 서버소켓에 접속했을때
+            // type : 메시지의 종류, message : 메시지의 본문 내용
+            let msg = {'type' : 'alarm' , 'memssage': `${nickName}님이 로그인 했습니다..`}
+            // 소켓은 문자열만 정송이 가능 하므로 JSON.stringify() 이용한 문자열타입으로 전송하기
+            clientSocket.send(JSON.stringify(msg))
+            
+}
+
+
+
+
+
+
         })
         .catch( error => {   console.log( error); console.log( '비로그인상태');
             // 3. 회원가입 버튼 , 로그인 버튼 활성화
@@ -34,6 +55,7 @@ const getLoginMid = ( ) =>{
             // 4. 출력하기
            memberBox.innerHTML = html;
         })
+        
 } // f end
 
 getLoginMid(); // JS 실행될때. 로그인 정보 요청 함수 호출 
@@ -68,4 +90,13 @@ const myPointInto =  ( ) =>{
               pointbox.innerHTML = html;
         })
         .catch( e => { console.log(e); })
+}
+
+//=========================================================
+clientSocket.onmessage = (event) => {
+    console.log('서버소켓으로 부터 메시지를 받았다.')
+    console.log(event);
+    console.log(event.data);
+
+    const message = JSON.parse(event.data);
 }

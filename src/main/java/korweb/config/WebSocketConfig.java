@@ -14,10 +14,12 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Autowired private ChatServerSocket chatServerSocket;
 
     // [*] WebSocketConfigurer 인터페이스의 추상메소드로 웹소켓 주소를 매핑하는 함수
+    // * 핸들러 : 어떠한 요청을 특정한 위치로 이동/핸들
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         //registry.addHandler(매핑할클래스객체 , "서비스소켓주소정의");
         registry.addHandler(chatServerSocket , "/socket/server"); // HTTP의 매핑 주소와 중복이 불가능
+        registry.addHandler(chatServerSocket, "/loginsocket/server");
     }
 }
 

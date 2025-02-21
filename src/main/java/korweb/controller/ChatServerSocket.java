@@ -38,8 +38,8 @@ public class ChatServerSocket extends TextWebSocketHandler {
         System.out.println("받은 내용 : " + message.getPayload());
         // 서버에게 메시지를 보낸 클라이언트 소켓 정보
         System.out.println("보낸클라이언트소켓정보 :" + session);
-        // 클라이언트에게 메시지를 보내기. 받을 클라이언트소켓.send(new TextMessage("보낼내용"))
-        session.sendMessage(new TextMessage("안녕 클라이언트"));// 메시지를 보낸 클라이언트에게 서버가 메시지 전송
+        /*// 클라이언트에게 메시지를 보내기. 받을 클라이언트소켓.send(new TextMessage("보낼내용"))
+        session.sendMessage(new TextMessage("안녕 클라이언트"));// 메시지를 보낸 클라이언트에게 서버가 메시지 전송*/
 
         // [3] 서버소켓이 특정 클라이언트 소켓으로 부터 받은 메시지를 접속된 모든 클라이언트 소켓들에게 보내기
         for(int index = 0; index<=접속명단.size()-1; index++){
