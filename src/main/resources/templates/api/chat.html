@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="/css/chat.css"/>
+</head>
+<body>
+    <div th:replace ="~{/header.html :: header}"></div>
+    <div class="container">
+        <h3> 채팅방 </h3>
+        <div class="채팅내용구역">
+
+            <div class="secontent"> <!-- 보낸 메시지 -->
+                <span class="date"> 오전 10:07 </span>
+                <span class="content"> 안녕하세요 </span>
+            </div>
+
+            <div class="alarm"> <!-- 누군가 입장(알람 메시지)-->
+                <span> 강호동님이 입장했습니다. </span>
+            </div>
+
+            <div class="receiveBox"> <!-- 받은 메시지 -->
+                <div class="profileImg">
+                    <img src="/img/default.jpg"/>
+                </div>
+                <div class="recontent">
+                    <div class="memberNic">강호동</div>
+                    <span class="content"> 안녕하세요2 </span>
+                    <span class="date"> 오전 10:07 </span>
+                </div>
+            </div>
+
+        </div>
+        <div class="bottomBox">
+        <input onkeyup="enterKey()" type="text" class="메시지작성구역">
+        <button type="button" onclick="메시지전송()">전송</button>
+        </div>
+    </div>
+
+    <script src="/js/api/chat.js"></script>
+</body>
+</html>

@@ -24,9 +24,13 @@ repositories {
 }
 
 dependencies {
+    // MyBatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
     // WebSocket : 서버소켓 의존성
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // 타임리프
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'

@@ -1,0 +1,66 @@
+.채팅내용구역{
+    border: 3px solid #f9f9f9; /*테두리*/
+    height : 700px; background-color: #a9bdce;
+    overflow-y : scroll; /* 만약에 넘치면 scroll 쓰겠다, 하위요소가 커지면 자동으로 세로 스크롤 쓰겠다. */
+}
+
+.secontent{
+    text-align: right; /*오른쪽 가로 정렬*/
+
+}
+.secontent .content{
+    background-color: #ffeb33;
+}
+.recontent{
+    text-align: left; /*왼쪽 가로 정령*/
+}
+
+.content{
+    background-color:#ffffff;
+    border-radius:10px;
+    padding: 10px;
+    display: inline-block; /*한줄 차지*/
+    font-size: 15px;
+}
+
+.date{font-size: 10px; background-color: #a9bdce;
+text-align: center;
+padding: 10px;
+margin: 0 auto;
+}
+
+.alarm{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: #a9bdce;
+    padding: 5px;
+    margin: 0 auto;
+    width: 400px;
+}
+
+.profileImg > img{
+    /* rounded-circle 부트스트랩 */
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+    object-fit: cover;
+}
+
+.receiveBox{
+    display: flex;
+}
+
+.bottomBox{
+    display: flex;
+    margin-bottom: 100px;
+}
+.메시지작성구역{
+    width: 90%;
+    padding: 10px;
+}
+.bottomBox > button{
+    width: 10%;
+    background-color: #ffeb33;
+    border : none;
+}
