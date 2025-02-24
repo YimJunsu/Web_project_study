@@ -27,4 +27,13 @@ public class ProductController {
     public ProductDto find(@RequestParam int id){
         return productService.find(id);
     }
+    // [4] 제품 수정
+    @PutMapping("/product/update")
+    public boolean update(@RequestBody ProductDto productDto){
+        return productService.update(productDto);
+    }
+    @DeleteMapping("/product/delete")
+    public boolean delete(@RequestParam int id){
+        return productService.delete(id);
+    }
 }

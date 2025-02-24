@@ -21,4 +21,10 @@ public class ProductService {
     public ProductDto find(int id){
         return productMapper.find(id);
     }
+    public boolean update(ProductDto productDto){
+        return productMapper.update(productDto);
+    }
+    public boolean delete(int id){
+        return productMapper.delete(id);
+    }
 }
