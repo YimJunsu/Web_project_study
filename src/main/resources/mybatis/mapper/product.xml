@@ -18,7 +18,7 @@
             select * from products where id = #{id}
         </select>
         <update id="update">
-            update products set name = #{name} , price = #{price} where id = #{id}
+            update products set name     = #{name} , price = #{price} where id = #{id}
         </update>
         <delete id="delete">
             delete from products where id = #{id}

@@ -3,6 +3,7 @@ package korweb.model.entity;
 import jakarta.persistence.*;
 import korweb.model.dto.MemberDto;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @Table(name = "member")
 @Getter@Setter@ToString@Builder
 @NoArgsConstructor@AllArgsConstructor
+@DynamicInsert
 public class MemberEntity extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
