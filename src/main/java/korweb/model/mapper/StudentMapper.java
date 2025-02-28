@@ -12,17 +12,17 @@ import java.util.Map;
 public interface StudentMapper {
 
     // [1] 학생 점수 등록(추상)
-    @Insert("insert into student(name,kor, math) values(#{name},#{kor},#{math}")
-    @Options(useGeneratedKeys = true, keyProperty = "sno")
-    // uesGeneratedKeys : auto_increment 로 생선된 pk번호를 반환 하겠다는 뜻
+    @Insert(" insert into student( name , kor , math ) values( #{name}, #{kor}, #{math} )")
+    @Options( useGeneratedKeys = true , keyProperty = "sno")
+    // useGeneratedKeys : auto_increment로 생성된 pk번호 를 반환 하겠다는 뜻한다.
     // keyProperty : pk번호를 가지는 pk필드(속성)명 뜻한다.
     // --> insert 성공한 자동으로 생성된 pk번호를 매개변수에 저장한다.
-    int save(Map<String,Object>map);
+    int save(Map<String,Object> map );
 
     // [2] 학생 전체 조회(추상)
-    //@Select("select * from student") // 정적 쿼리
-    @Select("<script> select * from student </script>") // 동적쿼리
-    List<Map<String, Object>> findAll();
+    //@Select(" select * from student") // 정적 쿼리
+    @Select("<script> select * from student </script> ") // 동적쿼리
+    List<Map<String,Object>> findAll();
 
     // [3] 특정한 점수 이상의 학생 조회(동적 쿼리 표션)
     // JAVA 15 이상 부터 (강의는 17) """문자열""" 템플릿 지원 : 문자열 입력시 다음줄로 이어지는 방법

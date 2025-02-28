@@ -20,7 +20,7 @@ public class StudentController {
         return studentService.save(map);
     }
     // [2] 학생 전체 조회
-     @GetMapping("/aa")
+     @GetMapping("")
     public List<Map<String,Object>>findAll(){
          System.out.println("StudentController.findAll");
          return studentService.findAll();
