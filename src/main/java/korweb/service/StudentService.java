@@ -30,4 +30,5 @@ public class StudentService {
     public boolean saveAll(List<Map<String,Object>>list){
         return studentMapper.saveAll(list);
     }
+
 }
