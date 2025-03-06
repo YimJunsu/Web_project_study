@@ -19,7 +19,7 @@ public class MemberEntity extends BaseTime {
     private int mno;
     @Column(columnDefinition = "varchar(30)", nullable = false, unique = true /* , length = 30 으로도 가능 */ )
     private String mid;
-    @Column(columnDefinition = "varchar(30)", nullable = false)
+    @Column(columnDefinition = "varchar(100)", nullable = false)
     private String mpwd;
     @Column(columnDefinition = "varchar(20)", nullable = false)
     private String mname;
