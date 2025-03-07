@@ -25,21 +25,21 @@ public class MemberController {
         return memberService.signup(memberDto);
     }
 
-    // 로그인
-    @PostMapping("/member/login")
-    public boolean login (@RequestBody MemberDto memberDto){
-        return memberService.login(memberDto);
-    }
+//    // 로그인 - 스프링 시큐리티 사용시 사용하지 않는다.
+//    @PostMapping("/member/login")
+//    public boolean login (@RequestBody MemberDto memberDto){
+//        return memberService.login(memberDto);
+//    }
     // 현재 로그인된 회원 아이디 http 매핑
     @GetMapping("/member/login/id")
     public String login (){
         return memberService.getSession();
     }
-    // 현재 로그인된 회원 로그아웃
-    @GetMapping("/member/logout")
-    public boolean logout(){
-        return memberService.deleteSession();
-    }
+//    // 현재 로그인된 회원 로그아웃 - 스프링 시큐리티 사용시 사용하지 않는다.
+//    @GetMapping("/member/logout")
+//    public boolean logout(){
+//        return memberService.deleteSession();
+//    }
     // [6] 현재 로그인된 회원의 정보 조회
     @GetMapping("/member/myinfo")
     public MemberDto MyInfo(){
