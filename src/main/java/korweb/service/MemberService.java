@@ -117,7 +117,7 @@ public class MemberService implements UserDetailsService {
         // (3) mid 이용하여 데이터베이스의 저장된 암호화 패스워드 가져오기.
         MemberEntity memberEntity = memberRepository.findByMid(mid); // 입력받은 아이디로 회원 엔티티 찾기
         if(memberEntity == null){
-            throw new UsernameNotFoundException("업는 아이디 입니다.");
+            throw new UsernameNotFoundException("없는 아이디 입니다.");
             // throw : 던지다 뜻 // new UsernameNotFoundException : 예외클래스 강제 실행
         }
         // 입력받은 아이디의 엔티티가 존재하면 암호화된 패스워드 확인
