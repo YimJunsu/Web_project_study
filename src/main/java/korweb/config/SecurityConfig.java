@@ -59,12 +59,20 @@ public class SecurityConfig {
         );
         // [6] 로그아웃 , 시큐리티에 로그아웃 기능 [커스텀] 을 제공한다.
         http.logout( logout -> logout
-                .logoutUrl( "/member/logout") // 로그아웃 처리할 요청 URL 정의 //  GET방식
+                .logoutUrl( "/member/logout.do") // 로그아웃 처리할 요청 URL 정의 //  GET방식
                 .logoutSuccessUrl("/") // 만약에 로그아웃 성공시 이동할 page url 정의
                 .invalidateHttpSession(true) // 만약에 로그아웃 성공시 (로그인)세션 초기화
         );
         // [7] 로그인 을 처리할 서비스 객체 정의
         http.userDetailsService(  memberService );
+
+        // [8] 시큐리티에서 OAUTH2 로그인페이지와 (커스텀/오버라이딩/재정의)서비스 정의
+        http.oauth2Login( oauth2Login -> {
+            oauth2Login
+                    .loginPage("/member/login") // oauth2 실행할 URL 페이지 정의
+                    // oauth2 에서 로그인 성공시 유저 정보를 받을 객체 정의
+                    .userInfoEndpoint( userinfo -> {  userinfo.userService( memberService );   } );
+        });
 
         // [2] http 객체를 빌드/실행하여 보안 필터 체인을 생성
         return http.build();

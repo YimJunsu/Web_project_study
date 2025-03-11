@@ -32,12 +32,17 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // 타임리프
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // Spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
+    // SQL
     runtimeOnly 'com.mysql:mysql-connector-j'
+    //lombok
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     // Security-Spring
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    // oauth2 : social login
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 }
 
 tasks.named('test') {
