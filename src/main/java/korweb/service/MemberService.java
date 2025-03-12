@@ -3,6 +3,7 @@ package korweb.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
+import korweb.model.dto.LoginDto;
 import korweb.model.dto.MemberDto;
 import korweb.model.dto.PointDto;
 import korweb.model.entity.MemberEntity;
@@ -71,8 +72,13 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         else if( registrationId.equals("google") ){}
 
         // (9) DefaultOauth2User 타입으로 리턴 해야한다. 매개변수 3가지 : (1) 권한(ROLE) 목록 (2) 사용자정보 (3) 식별키
-        DefaultOAuth2User user = new DefaultOAuth2User( null , profile , "nickname"  );
-        return user;
+//        DefaultOAuth2User user = new DefaultOAuth2User( null , profile , "nickname"  );
+//        return user;
+        LoginDto loginDto = LoginDto.builder()
+                .mid(nickname) // oauth2 회원은 패스워드가 없다.
+                .build();
+        return loginDto;
+        // loginDto 에서 "OAuth2User' 구현(implements) 했으므로 가능
     }
 
     @Autowired private MemberRepository memberRepository;
@@ -181,8 +187,14 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
             // User : 클래스, UserDetails 를 구현하는 구현(객)체
             // ---> 시큐리티는 UserDetails 반환 하면 자동으로 로그인 처리를 해준다.
             // 단] 입력받은 id 와 입력받은 id의 암호화된 password 넣어줘야한다.
-        UserDetails user = User.builder().username(mid).password(password).build();
-        return user;
+//        UserDetails user = User.builder().username(mid).password(password).build();
+//        return user;
+        LoginDto loginDto = LoginDto.builder()
+                .mid(mid)
+                .mpwd(password)
+                .build();
+        return loginDto;
+        // loginDto 에서 "UserDetails' 구현(implements) 했으므로 가능
     }
 
     // ===================== 세션 관련 함수 ===================== //
@@ -210,7 +222,8 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
         // * userDetails : 일반회원 타입  vs OAuth2User : oauth회원 타입 ===> 타입별 구분 해야한다 , 통합이 필요하다.
         // (4) 로그인된 정보에서 mid 꺼낸다.
         String loginMid = "";
-        if( object instanceof UserDetails ){ // 객체 instanceof 타입 : 객체가 지정한 타입인지 확인하는 키워드 , 객체가 해당 타입이면 true 아니면 false
+        // -> (클래스 하나 더 만들어서 처리 해도 됨 가독성 증가)
+        /*if( object instanceof UserDetails ){ // 객체 instanceof 타입 : 객체가 지정한 타입인지 확인하는 키워드 , 객체가 해당 타입이면 true 아니면 false
             // 현재로그인세션이 UserDetails(일반회원) 타입 이면
             UserDetails userDetails = (UserDetails)object;
             loginMid = userDetails.getUsername();
@@ -218,7 +231,9 @@ public class MemberService implements UserDetailsService , OAuth2UserService<OAu
             // 현재로그인세션이 DefaultOAuth2User(oauth2회원) 타입 이면
             DefaultOAuth2User oAuth2User = (DefaultOAuth2User) object;
             loginMid = oAuth2User.getAttributes().get("nickname").toString();
-        }
+        }*/
+        LoginDto loginDto = (LoginDto)object;
+        loginMid = loginDto.getMid();
 //        UserDetails userDetails = (UserDetails) object;
 //        // (4) 로그인된 정보에서 mid 꺼낸다.
 //        String loginMid = userDetails.getUsername();
