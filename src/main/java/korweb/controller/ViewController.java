@@ -5,6 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class ViewController {
+    // [0] 403 권한 에러페이지 반환
+    @GetMapping("/error403")
+    public String error(){return "error403.html";}
+
     // [1] 메인페이지를 반환해주는 메소드
     @GetMapping
     public String index(){return "index.html";}

@@ -80,19 +80,24 @@ const getLoginMid = ( ) =>{
 
 getLoginMid(); // JS 실행될때. 로그인 정보 요청 함수 호출 
 
-// [2] 로그아웃 함수
-const logOut = ( ) => {
-    // 1. fetch option
-    const option = { method : 'GET' }
-    // 2. fetch
-    fetch( '/member/logout' , option )
-        .then( response => response.json() )
-        .then( data => {
-            // 만약에 로그아웃 성공 했다면 로그인 페이지로 이동
-            if( data == true ){ alert('로그아웃 했습니다.'); location.href="/member/login"; } 
-        })
-        .catch( e => { console.log(e); })
-} // f end
+//// [2] 로그아웃 함수
+//const logOut = ( ) => {
+//    // 1. fetch option
+//    const option = { method : 'GET' }
+//    // 2. fetch
+//    fetch( '/member/logout' , option )
+//        .then( response => response.json() )
+//        .then( data => {
+//            // 만약에 로그아웃 성공 했다면 로그인 페이지로 이동
+//            if( data == true ){ alert('로그아웃 했습니다.'); location.href="/member/login"; }
+//        })
+//        .catch( e => { console.log(e); })
+//} // f end
+// 로그아웃 함수 시큐리티 버전
+const logOut = () => {
+    // 시큐리티에서는 로그아웃 Get 방식
+    location.href="/member/logout.do";
+}
 
 // [3] 내 포인트 함수
 const myPointInto =  ( ) =>{

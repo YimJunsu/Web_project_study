@@ -25,11 +25,22 @@ public class SecurityConfig {
             // 3-3 : 채팅페이지(chat) 에는 로그인회원이면서 Role 이 USER 회원만 접근할 수 있다.
             // 3-4 : 관리자페이지(admin) 에느 로그인회원이면서 Role 이 admin 이거나 temp1 회원만 접근 할 수 있다.
             httpReq
-                    .requestMatchers( AntPathRequestMatcher.antMatcher("/board/write") ).authenticated()
-                    .requestMatchers( AntPathRequestMatcher.antMatcher("/chat") ).hasRole("USER")
-                    .requestMatchers( AntPathRequestMatcher.antMatcher("/admin") ).hasAnyRole( "admin" , "team1" )
-                    .requestMatchers(AntPathRequestMatcher.antMatcher("/**") ).permitAll();
+                    .requestMatchers( AntPathRequestMatcher.antMatcher("/board/write") ).authenticated() // 인증된(로그인된) 모든 회원
+                    .requestMatchers( AntPathRequestMatcher.antMatcher("/chat") ).hasRole("USER") // 로그인된 모든 회원 접속
+                    .requestMatchers( AntPathRequestMatcher.antMatcher("/api") ).hasRole("GENERAL") // 일반 회원만 접속
+                    .requestMatchers( AntPathRequestMatcher.antMatcher("/api2")).hasAnyRole("OAUTH") // oauth 회원만 접속
+                    .requestMatchers( AntPathRequestMatcher.antMatcher("/admin") ).hasAnyRole( "admin" , "team1" ) // ADMIN 또는 TEAM1 회원만 접속
+                    .requestMatchers(AntPathRequestMatcher.antMatcher("/**") ).permitAll(); // 그외 모든 접속자 허용
         } );
+
+            // [3**] 403 에러 메시지 : 권한이 없을때 페이지 접근 차단. ( 권한없을경우 )
+            // 403 에러 페이지 힌들러(매핑) 하기.
+        http.exceptionHandling((e)->
+                    e.accessDeniedHandler((request, response, accessDeniedException) -> {
+                        response.sendRedirect("/error403"); // URL 반환
+                    }) // 403 에러 핸들러
+                );
+
         // [4] CSRF : post/put (BODY) 요청을 금지  , 특정한 URL만 post/put 가능하도록 수동 허용
         // 개발 : CSRF 사용안함 , 개발 환경에서는 끄고 사용하는 경우가 많다.
         http.csrf(AbstractHttpConfigurer :: disable ); // csrf 끄기. --> post/put 사용할수 있다.
