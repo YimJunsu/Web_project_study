@@ -59,7 +59,7 @@ public class SecurityConfig {
                 // Fetch/Axios 에서는 아래와 같은 방법으로 사용한다.
                 .successHandler((request, response, exception) -> {
                     System.out.println("로그인 성공!!!");
-                    response.setContentType("applycation/json"); // 응답 방식을 JSON 변경
+                    response.setContentType("application/json"); // 응답 방식을 JSON 변경
                     response.getWriter().println("true"); // JSON 형식의 true 응답하기.
                 })
                 .failureHandler(((request, response, exception) -> {
